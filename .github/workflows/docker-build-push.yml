@@ -17,10 +17,8 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Login to Aliyun ACR
-      uses: aliyun/login-action@v1
-      with:
-        creds: ${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }} # 存储在GitHub Secrets中的阿里云容器镜像仓库凭证
-
+      run: echo ${{ secrets.ALIYUN_ACR_PASSWORD }} | docker login --username ${{ secrets.ALIYUN_ACR_USERNAME }} --password-stdin registry.cn-hangzhou.aliyuncs.com
+      
     - name: Build and push Docker image
       run: |
         DOCKER_TAG=$(date +'%Y%m%d%H%M')
