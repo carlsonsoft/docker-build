@@ -1,3 +1,4 @@
-FROM ubuntu:22.04
+FROM ghcr.io/osgeo/gdal:ubuntu-full-3.6.3
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y openssh-client sshpass bash
+RUN apt-get install -y  unixodbc-dev mdbtools-dev unixodbc mdbtools
+RUN odbcinst --version
