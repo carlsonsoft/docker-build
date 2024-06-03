@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-arm64
     permissions:
       contents: read
       packages: write
@@ -22,8 +22,8 @@ jobs:
     - name: Build and push Docker image
       run: |
         DOCKER_TAG=$(date +'%Y%m%d%H%M')
-        docker build -t registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-small .
-        docker push registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-small
+        docker build -t registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full .
+        docker push registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full
       env:
         DOCKER_USERNAME: 崔英群000 # 对于阿里云Acr，使用_json_key作为用户名
         DOCKER_PASSWORD: ${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }} # 引用GitHub Secrets中存储的密码
