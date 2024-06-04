@@ -43,7 +43,7 @@ jobs:
     - name: Build and push Docker image
       run: |
         DOCKER_TAG=$(date +'%Y%m%d%H%M')
-        docker run --privileged --rm tonistiigi/binfmt --install all
+        # docker run --privileged --rm tonistiigi/binfmt --install all
         docker buildx build --platform linux/arm64 -t registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64 .
         docker push registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64
       env:
