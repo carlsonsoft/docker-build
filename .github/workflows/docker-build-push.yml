@@ -16,29 +16,30 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # - name: Login to Aliyun ACR
-    #   run: echo ${{ secrets.ALIYUN_ACR_PASSWORD }} | docker login --username=崔英群000 --password-stdin registry.cn-hangzhou.aliyuncs.com
-    - name: Login to ACR
-      uses: aliyun/acr-login@v1
-      with:
-        login-server: https://registry.cn-hangzhou.aliyuncs.com
-        username: "崔英群000"
-        password: "${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }}"
+    - name: Login to Aliyun ACR
+      run: echo ${{ secrets.ALIYUN_ACR_PASSWORD }} | docker login --username=崔英群000 --password-stdin registry.cn-hangzhou.aliyuncs.com
+    # - name: Login to ACR
+    #   uses: aliyun/acr-login@v1
+    #   with:
+    #     login-server: https://registry.cn-hangzhou.aliyuncs.com
+    #     username: "崔英群000"
+    #     password: "${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }}"
         
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        platforms: linux/arm64
-        push: true
-        tags: |
-          gdal:3.6.3-full-arm64
-          registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64           
-    # - name: Build and push Docker image
-    #   run: |
-    #     DOCKER_TAG=$(date +'%Y%m%d%H%M')
-    #     docker buildx build --platform linux/arm64 -t registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64 .
-    #     docker push registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64
-    #   env:
-    #     DOCKER_USERNAME: 崔英群000 # 对于阿里云Acr，使用_json_key作为用户名
-    #     DOCKER_PASSWORD: ${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }} # 引用GitHub Secrets中存储的密码
+    # - name: Build and push
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     context: .
+    #     platforms: linux/arm64
+    #     push: true
+    #     tags: |
+    #       gdal:3.6.3-full-arm64
+    #       registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64           
+    - name: Build and push Docker image
+      run: |
+        DOCKER_TAG=$(date +'%Y%m%d%H%M')
+        docker run --privileged --rm tonistiigi/binfmt --install all
+        docker buildx build --platform linux/arm64 -t registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64 .
+        docker push registry.cn-hangzhou.aliyuncs.com/carlsonsoft/gdal:3.6.3-full-arm64
+      env:
+        DOCKER_USERNAME: 崔英群000 # 对于阿里云Acr，使用_json_key作为用户名
+        DOCKER_PASSWORD: ${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }} # 引用GitHub Secrets中存储的密码
