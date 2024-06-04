@@ -18,12 +18,13 @@ jobs:
 
     # - name: Login to Aliyun ACR
     #   run: echo ${{ secrets.ALIYUN_ACR_PASSWORD }} | docker login --username=崔英群000 --password-stdin registry.cn-hangzhou.aliyuncs.com
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
+    - name: Login to ACR
+      uses: aliyun/acr-login@v1
       with:
-        registry: registry.cn-hangzhou.aliyuncs.com
-        username: 崔英群000
-        password: ${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }} # 引用GitHub Secrets中存储的密码
+        login-server: https://registry.cn-hangzhou.aliyuncs.com
+        username: "崔英群000"
+        password: "${{ secrets.ALIYUN_CR_PUBLISH_PASSWORD }}"
+        
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
